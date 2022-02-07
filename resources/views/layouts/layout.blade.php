@@ -17,7 +17,7 @@
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="{{ (request()->is('/')) ? 'nav-link active' : 'nav-link' }}" href="{{ route('home.index') }}">Home</a>
+                    <a class="{{ (request()->is('/')) ? 'nav-link active' : 'nav-link' }}" href="{{ route('home.index') }}">{{__('layoutmessages.Home')}}</a>
                 </li>
                 <li class="nav-item">
                     <a class="{{ (request()->is('exercise')) ? 'nav-link active' : 'nav-link' }}" href="{{ route('exercise.index') }}">Exercises</a>
