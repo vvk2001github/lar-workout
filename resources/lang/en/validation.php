@@ -157,6 +157,8 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'ex_descr' => 'Description',
+    ],
 
 ];

@@ -46,7 +46,14 @@ class ExerciseController extends Controller
      */
     public function store(StoreExerciseRequest $request)
     {
-        //
+        $exercise = new Exercise();
+        $exercise->user_id = Auth::user()->id;
+        $exercise->ex_descr = $request->ex_descr;
+        $exercise->ex_type = $request->ex_type;
+
+        $exercise->save();
+
+        return redirect()->route('exercise.index')->with('success', 'Упражнение успешно добавлено');
     }
 
     /**

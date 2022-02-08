@@ -59,6 +59,28 @@
         </div>
     </div>
 </nav>
+<div class="container mt-2">
+
+    @if($errors->any())
+        @foreach($errors->all() as $error)
+            <div class="row">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ $error }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+        @endforeach
+    @endif
+
+    <div class="row">
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+    </div>
+</div>
 
 @yield('content')
 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">

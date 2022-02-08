@@ -1,17 +1,17 @@
 <?php
 
-function exTypeToString($type) {
+function exTypeToString(int $type):string {
 
     switch ($type) {
         case 0:
-            return "Без веса";
+            return __('exmessages.Type0');
         case 1:
-            return "Без веса раздельное";
+            return __('exmessages.Type1');
         case 2:
-            return "С весом";
+            return __('exmessages.Type2');
         case 3:
-            return "С весом раздельное";
+            return __('exmessages.Type3');
         default:
-            return "Не определено";
+            return __('exmessages.TypeUndefined');
     }
 }
