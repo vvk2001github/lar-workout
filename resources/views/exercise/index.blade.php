@@ -12,18 +12,14 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td style="display: none;">1</td>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-            </tr>
-            <tr>
-                <td style="display: none;">1</td>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-            </tr>
+            @foreach($exercises as $exercise)
+                <tr>
+                    <td style="display: none;">{{ $exercise->ex_id }}</td>
+                    <td>{{ $exercise->ex_descr }}</td>
+                    <td>{{ $exercise->ex_type }}</td>
+                    <td>@###</td>
+                </tr>
+            @endforeach
             </tbody>
         </table>
     </div>
