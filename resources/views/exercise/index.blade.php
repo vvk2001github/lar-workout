@@ -21,7 +21,7 @@
                     <tr class="align-middle">
                         <td style="display: none;">{{ $exercise->ex_id }}</td>
                         <td>{{ $exercise->ex_descr }}</td>
-                        <td>{{ $exercise->ex_type }}</td>
+                        <td>{{ exTypeToString($exercise->ex_type) }}</td>
                         <td>
                             <a class="btn btn-primary" href="#" role="button"><i class="bi bi-pencil-square"></i></a>
                             <a class="btn btn-danger" href="#" role="button"><i class="bi bi-x-square"></i></a>

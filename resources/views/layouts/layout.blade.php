@@ -27,7 +27,7 @@
                     <a class="{{ (request()->is('/')) ? 'nav-link active' : 'nav-link' }}" href="{{ route('home.index') }}">{{__('layoutmessages.Home')}}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="{{ (request()->is('exercise')) ? 'nav-link active' : 'nav-link' }}" href="{{ route('exercise.index') }}">{{__('layoutmessages.Exercises')}}</a>
+                    <a class="{{ (request()->routeIs('exercise.*')) ? 'nav-link active' : 'nav-link' }}" href="{{ route('exercise.index') }}">{{__('layoutmessages.Exercises')}}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Workouts</a>
