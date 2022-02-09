@@ -26,6 +26,7 @@ class ExerciseController extends Controller
             ->orderBy('ex_descr')
             ->get();
         return view('exercise.index', compact('exercises'));
+        //return view('exercise.index', ['exercises' => $exercises]);
     }
 
     /**
@@ -35,7 +36,10 @@ class ExerciseController extends Controller
      */
     public function create()
     {
-        return view('exercise.create');
+        if (Auth::user()->can('create', Exercise::class)) {
+            return view('exercise.create');
+        }
+        return redirect()->route('exercise.index')->withErrors('You are not allowed to create Exercise.');
     }
 
     /**
@@ -75,7 +79,10 @@ class ExerciseController extends Controller
      */
     public function edit(Exercise $exercise)
     {
-        //
+        if(Auth::user()->can('update', $exercise)) {
+            return view('exercise.edit', compact('exercise'));
+        }
+        return redirect()->route('exercise.index')->withErrors('You are not allowed to edit Exercise.');
     }
 
     /**
@@ -87,7 +94,14 @@ class ExerciseController extends Controller
      */
     public function update(UpdateExerciseRequest $request, Exercise $exercise)
     {
-        //
+        if($exercise->user_id != Auth::user()->id) {
+            return redirect()->route('exercise.index')->withErrors('Вы не можете редактировать данное упражнение');
+        }
+        $exercise->ex_descr = $request->ex_descr;
+        $exercise->ex_type = $request->ex_type;
+        $exercise->update();
+
+        return redirect()->route('exercise.index')->with('success', 'Упражнение успешно изменено');
     }
 
     /**
@@ -98,6 +112,11 @@ class ExerciseController extends Controller
      */
     public function destroy(Exercise $exercise)
     {
-        //
+        if($exercise->user_id != Auth::user()->id) {
+            return redirect()->route('exercise.index')->withErrors('Вы не можете удалить данное упражнение');
+        }
+
+        $exercise->delete();
+        return redirect()->route('exercise.index')->with('success', 'Упражнение успешно удалено');
     }
 }

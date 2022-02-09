@@ -2,10 +2,12 @@
 @section('content')
 
     <div class="container">
+        @can('create', \App\Models\Exercise::class)
         <div class="row mt-2">
             <div class="col-11"></div>
             <div class="col-1"><a class="btn btn-success" href="{{ route('exercise.create') }}" role="button"><i class="bi bi-plus-square"></i></a></div>
         </div>
+        @endcan
         <div class="row">
             <table class="table table-hover table-sm">
                 <thead>
@@ -23,8 +25,8 @@
                         <td>{{ $exercise->ex_descr }}</td>
                         <td>{{ exTypeToString($exercise->ex_type) }}</td>
                         <td>
-                            <a class="btn btn-primary" href="#" role="button"><i class="bi bi-pencil-square"></i></a>
-                            <a class="btn btn-danger" href="#" role="button"><i class="bi bi-x-square"></i></a>
+                            <a class="btn btn-primary" href="{{ route('exercise.edit', ['exercise' => $exercise->ex_id]) }}" role="button"><i class="bi bi-pencil-square"></i></a>
+                            <a class="btn btn-danger" href="{{ route('exercise.destroy', ['exercise' => $exercise->ex_id]) }}" role="button"><i class="bi bi-x-square"></i></a>
                         </td>
                     </tr>
                 @endforeach

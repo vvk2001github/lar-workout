@@ -25,7 +25,7 @@ class UpdateExerciseRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'ex_descr' => 'required|min:3|max:40',
         ];
     }
 }

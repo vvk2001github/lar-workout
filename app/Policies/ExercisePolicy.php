@@ -18,7 +18,7 @@ class ExercisePolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -41,7 +41,7 @@ class ExercisePolicy
      */
     public function create(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -53,7 +53,7 @@ class ExercisePolicy
      */
     public function update(User $user, Exercise $exercise)
     {
-        //
+        return $user->id === $exercise->user_id;
     }
 
     /**
@@ -65,7 +65,7 @@ class ExercisePolicy
      */
     public function delete(User $user, Exercise $exercise)
     {
-        //
+        return $user->id === $exercise->user_id;
     }
 
     /**
