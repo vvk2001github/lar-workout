@@ -26,7 +26,21 @@
                         <td>{{ exTypeToString($exercise->ex_type) }}</td>
                         <td>
                             <a class="btn btn-primary" href="{{ route('exercise.edit', ['exercise' => $exercise->ex_id]) }}" role="button"><i class="bi bi-pencil-square"></i></a>
-                            <a class="btn btn-danger" href="{{ route('exercise.destroy', ['exercise' => $exercise->ex_id]) }}" role="button"><i class="bi bi-x-square"></i></a>
+                            <a class="btn btn-danger" href="{{ route('exercise.destroy', ['exercise' => $exercise->ex_id]) }}" role="button"
+                               onclick="if(confirm('Точно удалить упражнение: {{ $exercise->ex_descr }}')) {
+                                   event.preventDefault();
+                                   document.getElementById('delete-form-{{ $exercise->ex_id }}').submit();
+                               } else {
+                                   return false
+                               }">
+                                <i class="bi bi-x-square"></i>
+                            </a>
+
+                            <form style="display: none;" id="delete-form-{{ $exercise->ex_id }}" action="{{ route('exercise.destroy', ['exercise' => $exercise->ex_id]) }}" method="post" >
+                                @csrf
+                                @method('DELETE')
+                                <input type="submit" class="btn btn-outline-danger" value="Удалить">
+                            </form>
                         </td>
                     </tr>
                 @endforeach
