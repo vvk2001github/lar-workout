@@ -11,4 +11,11 @@ class Workout extends Model
 
     protected $table = 'workouts';
     protected $primaryKey = 'w_id';
+
+    protected $attributes = [
+        'weight1' => 0,
+        'weight2' => 0,
+        'count1' => 0,
+        'count2' => 0,
+    ];
 }

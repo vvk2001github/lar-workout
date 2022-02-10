@@ -5,10 +5,10 @@
 </div>
 <div class="mb-2">
     <select name="ex_type" id="ex_type" class="form-select" aria-label="Default select example">
-        <option value="0" @if ((old('ex_type') == '0')or($exercise->ex_type == '0')) selected="selected" @endif>{{ exTypeToString(0) }}</option>
-        <option value="1" @if ((old('ex_type') == '1')or($exercise->ex_type == '1')) selected="selected" @endif>{{ exTypeToString(1) }}</option>
-        <option value="2" @if ((old('ex_type') == '2')or($exercise->ex_type == '2')) selected="selected" @endif>{{ exTypeToString(2) }}</option>
-        <option value="3" @if ((old('ex_type') == '3')or($exercise->ex_type == '3')) selected="selected" @endif>{{ exTypeToString(3) }}</option>
+        <option value="0" @if ((old('ex_type') == '0')or((isset($exercise) and ($exercise->ex_type == '0')))) selected="selected" @endif>{{ exTypeToString(0) }}</option>
+        <option value="1" @if ((old('ex_type') == '1')or((isset($exercise) and ($exercise->ex_type == '1')))) selected="selected" @endif>{{ exTypeToString(1) }}</option>
+        <option value="2" @if ((old('ex_type') == '2')or((isset($exercise) and ($exercise->ex_type == '2')))) selected="selected" @endif>{{ exTypeToString(2) }}</option>
+        <option value="3" @if ((old('ex_type') == '3')or((isset($exercise) and ($exercise->ex_type == '3')))) selected="selected" @endif>{{ exTypeToString(3) }}</option>
     </select>
     <div id="ex_descr_help" class="form-text">Выберите тип упражнения</div>
 </div>

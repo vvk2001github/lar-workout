@@ -1,4 +1,4 @@
-@extends('layouts.layout', ['title' => 'Exercises'])
+@extends('layouts.layout', ['title' => Lang::get('exmessages.Exercises')])
 @section('content')
 
     <div class="container">

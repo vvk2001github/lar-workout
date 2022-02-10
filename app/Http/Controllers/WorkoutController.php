@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Exercise;
 use App\Models\Workout;
 use App\Http\Requests\StoreWorkoutRequest;
 use App\Http\Requests\UpdateWorkoutRequest;
@@ -38,7 +39,17 @@ class WorkoutController extends Controller
      */
     public function create()
     {
-        //
+        if (!Auth::user()->can('create', Workout::class)) {
+            return redirect()->route('workout.index')->withErrors('You are not allowed to create Workout.');
+        }
+
+        $exercises = DB::table('exercises')
+            ->select(['ex_id', 'ex_descr', 'ex_type'])
+            ->where('user_id', '=', Auth::user()->id)
+            ->orderBy('ex_descr')
+            ->get();
+
+        return view('workout.create', compact('exercises'));
     }
 
     /**
