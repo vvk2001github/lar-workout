@@ -24,7 +24,7 @@ class ExerciseController extends Controller
         $exercises = DB::table('exercises')
             ->where('user_id', '=', Auth::user()->id)
             ->orderBy('ex_descr')
-            ->get();
+            ->paginate(10);
         return view('exercise.index', compact('exercises'));
         //return view('exercise.index', ['exercises' => $exercises]);
     }

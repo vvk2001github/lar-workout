@@ -47,6 +47,10 @@
                 </tbody>
             </table>
         </div>
+
+        <div class="row">
+            {{ $exercises->links() }}
+        </div>
     </div>
 
 @endsection
