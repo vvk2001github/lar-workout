@@ -30,10 +30,7 @@
                     <a class="{{ (request()->routeIs('exercise.*')) ? 'nav-link active' : 'nav-link' }}" href="{{ route('exercise.index') }}">{{__('layoutmessages.Exercises')}}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Workouts</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Workouts</a>
+                    <a class="{{ (request()->routeIs('workout.*')) ? 'nav-link active' : 'nav-link' }}" href="{{ route('workout.index') }}">Workouts</a>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto">

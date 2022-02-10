@@ -26,7 +26,6 @@ class ExerciseController extends Controller
             ->orderBy('ex_descr')
             ->paginate(10);
         return view('exercise.index', compact('exercises'));
-        //return view('exercise.index', ['exercises' => $exercises]);
     }
 
     /**
