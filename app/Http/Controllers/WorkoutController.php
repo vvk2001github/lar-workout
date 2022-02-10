@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Workout;
 use App\Http\Requests\StoreWorkoutRequest;
 use App\Http\Requests\UpdateWorkoutRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class WorkoutController extends Controller
 {
@@ -12,7 +14,7 @@ class WorkoutController extends Controller
     {
         $this->middleware('auth');
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -20,7 +22,13 @@ class WorkoutController extends Controller
      */
     public function index()
     {
-        return view('workout.index');
+        $workouts = DB::table('workouts')
+            ->join('exercises', 'exercises.ex_id', '=', 'workouts.ex_id')
+            ->join('users', 'exercises.user_id', '=', 'users.id')
+            ->where('users.id', '=', Auth::user()->id)
+            ->orderBy('workouts.created_at')
+            ->paginate(10);
+        return view('workout.index', compact('workouts'));
     }
 
     /**

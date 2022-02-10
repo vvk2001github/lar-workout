@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\User;
 use App\Models\Workout;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Facades\Auth;
 
 class WorkoutPolicy
 {
@@ -18,7 +19,7 @@ class WorkoutPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return Auth::check();
     }
 
     /**
@@ -30,7 +31,7 @@ class WorkoutPolicy
      */
     public function view(User $user, Workout $workout)
     {
-        //
+        return Auth::check();
     }
 
     /**
@@ -41,7 +42,7 @@ class WorkoutPolicy
      */
     public function create(User $user)
     {
-        //
+        return Auth::check();
     }
 
     /**
