@@ -50,11 +50,13 @@ class WorkoutController extends Controller
             return redirect()->route('workout.index')->withErrors('You are not allowed to create Workout.');
         }
 
-        $exercises = DB::table('exercises')
-            ->select(['ex_id', 'ex_descr', 'ex_type'])
-            ->where('user_id', '=', Auth::user()->id)
-            ->orderBy('ex_descr')
-            ->get();
+//        $exercises = DB::table('exercises')
+//            ->select(['ex_id', 'ex_descr', 'ex_type'])
+//            ->where('user_id', '=', Auth::user()->id)
+//            ->orderBy('ex_descr')
+//            ->get();
+
+        $exercises = Auth::user()->exercises()->orderBy('ex_descr')->get();
 
         return view('workout.create', compact('exercises'));
     }
@@ -67,7 +69,20 @@ class WorkoutController extends Controller
      */
     public function store(StoreWorkoutRequest $request)
     {
-        //
+        if (!Auth::user()->can('create', Workout::class)) {
+            return redirect()->route('workout.index')->withErrors('You are not allowed to create Workout.');
+        }
+
+        $workout = new Workout();
+        $workout->ex_id = $request->ex_id;
+        $workout->weight1 = $request->weight1;
+        $workout->count1 = $request->count1;
+        $workout->weight2 = $request->weight2;
+        $workout->count2 = $request->count2;
+
+        $workout->save();
+
+        return redirect()->route('workout.index')->with('success', 'Тренировка успешно добавлена');
     }
 
     /**
