@@ -28,7 +28,8 @@ $(document).ready(function(){
 
 
     //On Load
-    $('#divWeight1').hide();
-    $('#divWeight2').hide();
-    $('#divCount2').hide();
+    // $('#divWeight1').hide();
+    // $('#divWeight2').hide();
+    // $('#divCount2').hide();
+    exIdChange();
 });

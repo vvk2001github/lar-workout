@@ -23,17 +23,6 @@ class WorkoutController extends Controller
      */
     public function index()
     {
-//        $workouts = DB::table('workouts')
-//            ->join('exercises', 'exercises.ex_id', '=', 'workouts.ex_id')
-//            ->join('users', 'exercises.user_id', '=', 'users.id')
-//            ->where('users.id', '=', Auth::user()->id)
-//            ->orderBy('workouts.created_at')
-//            ->paginate(10);
-//        $workouts = Workout::whereHas('exercise', function ($q) {
-//            $q->where('user_id', '=', Auth::user()->id);
-//        })
-//            ->orderBy('created_at', 'desc')
-//            ->paginate(10);
         $workouts = Workout::whereRelation('exercise', 'user_id', '=', Auth::user()->id)
             ->orderBy('created_at', 'desc')->paginate(10);
         return view('workout.index', compact('workouts'));
@@ -80,6 +69,11 @@ class WorkoutController extends Controller
         $workout->weight2 = $request->weight2;
         $workout->count2 = $request->count2;
 
+        $exercise = Exercise::find($request->ex_id);
+        if($exercise->ex_type == 0) {$workout->weight1 =0; $workout->count2 = 0; $workout->weight2 = 0;};
+        if($exercise->ex_type == 1) {$workout->weight1 =0; $workout->weight2 = 0;};
+        if($exercise->ex_type == 2) {$workout->count2 = 0; $workout->weight2 = 0;};
+
         $workout->save();
 
         return redirect()->route('workout.index')->with('success', 'Тренировка успешно добавлена');
@@ -104,7 +98,11 @@ class WorkoutController extends Controller
      */
     public function edit(Workout $workout)
     {
-        //
+        if(Auth::user()->can('update', $workout)) {
+            $exercises = Auth::user()->exercises()->orderBy('ex_descr')->get();
+            return view('workout.edit', compact(['workout', 'exercises']));
+        }
+        return redirect()->route('workout.index')->withErrors('You are not allowed to edit Workout.');
     }
 
     /**
@@ -116,7 +114,24 @@ class WorkoutController extends Controller
      */
     public function update(UpdateWorkoutRequest $request, Workout $workout)
     {
-        //
+        if($workout->exercise->user_id != Auth::user()->id) {
+            return redirect()->route('exercise.index')->withErrors('Вы не можете редактировать данную тренировку');
+        }
+
+        $workout->ex_id = $request->ex_id;
+        $workout->weight1 = $request->weight1;
+        $workout->count1 = $request->count1;
+        $workout->weight2 = $request->weight2;
+        $workout->count2 = $request->count2;
+
+        $exercise = Exercise::find($request->ex_id);
+        if($exercise->ex_type == 0) {$workout->weight1 =0; $workout->count2 = 0; $workout->weight2 = 0;};
+        if($exercise->ex_type == 1) {$workout->weight1 =0; $workout->weight2 = 0;};
+        if($exercise->ex_type == 2) {$workout->count2 = 0; $workout->weight2 = 0;};
+
+        $workout->update();
+
+        return redirect()->route('workout.index')->with('success', 'Тренировка успешно изменена');
     }
 
     /**

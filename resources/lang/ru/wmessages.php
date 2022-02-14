@@ -3,6 +3,7 @@
 return [
     'Actions' => 'Действия',
     'AddWorkout' => 'Добавить упражнение',
+    'EditWorkout' => 'Изменить упражнение',
     'Exercise' => 'Упражнение',
     'CountOne' => 'Повторов 1',
     'CountTwo' => 'Повторов 2',

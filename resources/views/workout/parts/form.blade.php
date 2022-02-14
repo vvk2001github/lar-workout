@@ -1,7 +1,9 @@
 <div class="mb-2">
     <select name="ex_id" id="ex_id" class="form-select" aria-label="Default select example" onchange="">
         @foreach($exercises as $exercise)
-            <option value="{{ $exercise->ex_id }}" data-extype="{{ $exercise->ex_type }}">{{ $exercise->ex_descr }}</option>
+            <option value="{{ $exercise->ex_id }}" data-extype="{{ $exercise->ex_type }}" @if ((old('ex_id') == $exercise->ex_id)or((isset($workout) and ($workout->ex_id == $exercise->ex_id)))) selected="selected" @endif>
+                {{ $exercise->ex_descr }}
+            </option>
         @endforeach
     </select>
     <div id="ex_id_help" class="form-text">Выберите упражнение</div>
