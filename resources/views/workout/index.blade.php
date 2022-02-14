@@ -1,7 +1,7 @@
 @extends('layouts.layout', ['title' => Lang::get('wmessages.Title')])
 @section('content')
 
-    <div class="container">
+    <div class="container-fluid">
         @can('create', \App\Models\Workout::class)
             <div class="row mt-2">
                 <div class="col-11"></div>

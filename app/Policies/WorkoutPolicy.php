@@ -54,7 +54,7 @@ class WorkoutPolicy
      */
     public function update(User $user, Workout $workout)
     {
-        //
+        return $user->id === $workout->exercise->user_id;
     }
 
     /**
@@ -66,7 +66,7 @@ class WorkoutPolicy
      */
     public function delete(User $user, Workout $workout)
     {
-        //
+        return $user->id === $workout->exercise->user_id;
     }
 
     /**

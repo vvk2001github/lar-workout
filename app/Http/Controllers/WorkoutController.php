@@ -127,6 +127,11 @@ class WorkoutController extends Controller
      */
     public function destroy(Workout $workout)
     {
-        //
+        if($workout->exercise->user_id != Auth::user()->id) {
+            return redirect()->route('workout.index')->withErrors('Вы не можете удалить данную тренировку');
+        }
+
+        ;$workout->delete();
+        return redirect()->route('workout.index')->with('success', 'Тренировка успешно удалена');
     }
 }
