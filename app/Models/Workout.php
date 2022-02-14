@@ -18,4 +18,8 @@ class Workout extends Model
         'count1' => 0,
         'count2' => 0,
     ];
+
+    public function exercise() {
+        return $this->belongsTo(Exercise::class, 'ex_id', 'ex_id');
+}
 }

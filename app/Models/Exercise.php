@@ -12,4 +12,12 @@ class Exercise extends Model
     protected $table = 'exercises';
     protected $primaryKey = 'ex_id';
     public $timestamps = false;
+
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+
+    public function workouts() {
+        return $this->hasMany(Workout::class, 'ex_id', 'ex_id');
+    }
 }

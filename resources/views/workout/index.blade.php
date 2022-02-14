@@ -28,7 +28,7 @@
                         <tr class="align-middle">
                             <td style="display: none;">{{ $workout->w_id }}</td>
                             <td>{{ $workout->created_at }}</td>
-                            <td>{{ $workout->ex_descr }}</td>
+                            <td>{{ $workout->exercise->ex_descr }}</td>
                             <td>{{ $workout->count1 }}</td>
                             <td>{{ $workout->weight1 }}</td>
                             <td>{{ $workout->count2 }}</td>

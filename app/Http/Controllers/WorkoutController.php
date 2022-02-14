@@ -23,12 +23,19 @@ class WorkoutController extends Controller
      */
     public function index()
     {
-        $workouts = DB::table('workouts')
-            ->join('exercises', 'exercises.ex_id', '=', 'workouts.ex_id')
-            ->join('users', 'exercises.user_id', '=', 'users.id')
-            ->where('users.id', '=', Auth::user()->id)
-            ->orderBy('workouts.created_at')
-            ->paginate(10);
+//        $workouts = DB::table('workouts')
+//            ->join('exercises', 'exercises.ex_id', '=', 'workouts.ex_id')
+//            ->join('users', 'exercises.user_id', '=', 'users.id')
+//            ->where('users.id', '=', Auth::user()->id)
+//            ->orderBy('workouts.created_at')
+//            ->paginate(10);
+//        $workouts = Workout::whereHas('exercise', function ($q) {
+//            $q->where('user_id', '=', Auth::user()->id);
+//        })
+//            ->orderBy('created_at', 'desc')
+//            ->paginate(10);
+        $workouts = Workout::whereRelation('exercise', 'user_id', '=', Auth::user()->id)
+            ->orderBy('created_at', 'desc')->paginate(10);
         return view('workout.index', compact('workouts'));
     }
 

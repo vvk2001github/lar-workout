@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Exercise;
 use App\Http\Requests\StoreExerciseRequest;
 use App\Http\Requests\UpdateExerciseRequest;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -21,10 +22,7 @@ class ExerciseController extends Controller
      */
     public function index()
     {
-        $exercises = DB::table('exercises')
-            ->where('user_id', '=', Auth::user()->id)
-            ->orderBy('ex_descr')
-            ->paginate(10);
+        $exercises = Auth::user()->exercises()->orderBy('ex_descr')->paginate(10);
         return view('exercise.index', compact('exercises'));
     }
 
