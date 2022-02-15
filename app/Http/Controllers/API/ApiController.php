@@ -22,7 +22,12 @@ class ApiController extends Controller
     }
 
     public function exercisesList(Request $request) {
-        $exercises = \App\Models\Exercise::where('user_id', Auth::user()->id)->get();
+        if($request->exists('ex_type')) {
+            $exercises = \App\Models\Exercise::where('user_id', Auth::user()->id)
+                ->where('ex_type', $request->ex_type)->get();
+        } else {
+            $exercises = [];
+        }
         return $this->apisuccess($exercises);
     }
 }

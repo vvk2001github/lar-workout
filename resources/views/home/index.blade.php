@@ -74,12 +74,20 @@
             }
         });
 
+        var ex_type = $(this).val();
+
         $.ajax({
             type:'POST',
             url:"{{ route('api.exercise.list') }}",
-            data:{},
+            data:{ex_type:ex_type},
             success:function(data){
-                console.log(data);
+                $('#ex_id').empty();
+                data.data.forEach(function (entry){
+                    $('#ex_id').append($('<option>', {
+                        value: entry.ex_id,
+                        text: entry.ex_descr
+                    }));
+                });
             }
         });
     });
