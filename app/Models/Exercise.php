@@ -20,4 +20,6 @@ class Exercise extends Model
     public function workouts() {
         return $this->hasMany(Workout::class, 'ex_id', 'ex_id');
     }
+
+    //protected $hidden = ['user_id'];
 }
