@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Exercise;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ApiController extends Controller
 {
@@ -21,11 +22,7 @@ class ApiController extends Controller
     }
 
     public function exercisesList(Request $request) {
-        if($request->user()->tokenCan('server-admin')) {
-            $exercises = \App\Models\Exercise::all();
-        } else {
-            $exercises = Exercise::where('user_id', $request->user()->id)->get()->makeHidden('user_id');
-        }
+        $exercises = \App\Models\Exercise::where('user_id', Auth::user()->id)->get();
         return $this->apisuccess($exercises);
     }
 }

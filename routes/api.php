@@ -23,4 +23,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('auth/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->post('auth/logout', [AuthController::class, 'logout']);
 Route::middleware('auth:sanctum')->post('/userlist', [\App\Http\Controllers\API\ApiController::class, 'userList']);
-Route::middleware('auth:sanctum')->post('/exercises', [\App\Http\Controllers\API\ApiController::class, 'exercisesList']);
+Route::middleware('auth:sanctum')->post('/exercises', [\App\Http\Controllers\API\ApiController::class, 'exercisesList'])->name('api.exercise.list');
