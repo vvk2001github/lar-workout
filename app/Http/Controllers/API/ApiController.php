@@ -23,12 +23,14 @@ class ApiController extends Controller
 
     public function exercisesList(Request $request) {
         if($request->exists('ex_type')) {
-            $exercises = \App\Models\Exercise::where('user_id', Auth::user()->id)
-                ->where('ex_type', $request->ex_type)->get();
+//            $exercises = \App\Models\Exercise::where('user_id', Auth::user()->id)
+//                ->where('ex_type', $request->ex_type)->get();
+            $exercises = Auth::user()->exercises()->where('ex_type', $request->ex_type)->get();
+            return $this->apisuccess($data = $exercises, $message="Success");
         } else {
-            $exercises = [];
+            return $this->apierror($message = 'ex_type needed', 400);
         }
-        return $this->apisuccess($exercises);
+
     }
 
     public function exercisesData(Request $request) {
@@ -37,9 +39,9 @@ class ApiController extends Controller
                 ->where('ex_id', '=', $request->ex_id)
                 ->orderBy('created_at', 'asc')
                 ->get();
+            return $this->apisuccess($data = $workouts, $message="Success");
         } else {
-            $workouts = [];
+            return $this->apierror($message = 'ex_id needed', 400);
         }
-        return $this->apisuccess($workouts);
     }
 }
