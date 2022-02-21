@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\Exercise;
+use Illuminate\Support\Facades\DB;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,5 +29,17 @@ class ApiController extends Controller
             $exercises = [];
         }
         return $this->apisuccess($exercises);
+    }
+
+    public function exercisesData(Request $request) {
+        if($request->exists('ex_id')) {
+            $workouts = DB::table('workouts')
+                ->where('ex_id', '=', $request->ex_id)
+                ->orderBy('created_at', 'asc')
+                ->get();
+        } else {
+            $workouts = [];
+        }
+        return $this->apisuccess($workouts);
     }
 }
