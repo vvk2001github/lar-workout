@@ -26,6 +26,7 @@ class ApiController extends Controller
 //            $exercises = \App\Models\Exercise::where('user_id', Auth::user()->id)
 //                ->where('ex_type', $request->ex_type)->get();
             $exercises = Auth::user()->exercises()->where('ex_type', $request->ex_type)->get();
+            //$exercises = Auth::user()->exercises->where('ex_type', $request->ex_type)->all();
             return $this->apisuccess($data = $exercises, $message="Success");
         } else {
             return $this->apierror($message = 'ex_type needed', 400);
