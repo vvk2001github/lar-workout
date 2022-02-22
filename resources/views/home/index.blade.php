@@ -101,12 +101,12 @@
 
         $('#ex_id').empty();
 
-        getAjaxExerciseByType().then((result) => {console.log(result.data);result.data.forEach(function(entry){
+        getAjaxExerciseByType().then((result) => Object.values(result.data).forEach(function(entry){
             $('#ex_id').append($('<option>', {
                 value: entry.ex_id,
                 text: entry.ex_descr
             }))}
-        )});
+        ));
 
     });
 
