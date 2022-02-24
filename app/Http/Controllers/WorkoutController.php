@@ -6,6 +6,7 @@ use App\Models\Exercise;
 use App\Models\Workout;
 use App\Http\Requests\StoreWorkoutRequest;
 use App\Http\Requests\UpdateWorkoutRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -21,11 +22,25 @@ class WorkoutController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $workouts = Workout::whereRelation('exercise', 'user_id', '=', Auth::user()->id)
-            ->orderBy('created_at', 'desc')->paginate(10);
-        return view('workout.index', compact('workouts'));
+        $fltExercise = 0;
+        if(isset($request->fltExercise)) $fltExercise = $request->fltExercise;
+        $workouts = Workout::whereRelation('exercise', 'user_id', '=', Auth::user()->id);
+
+        if($fltExercise > 0) $workouts = $workouts->where('ex_id', '=', $fltExercise);
+
+        $workouts = $workouts->orderBy('created_at', 'desc')->paginate(5)->appends(['fltExercise' => $fltExercise]);
+
+        $usedExercises = DB::table('exercises')
+            ->join('workouts', 'exercises.ex_id', '=', 'workouts.ex_id')
+            ->join('users', 'exercises.user_id', '=', 'users.id')
+            ->where('users.id', '=', Auth::user()->id)
+            ->select('exercises.ex_id', 'exercises.ex_descr')
+            ->distinct()
+            ->orderBy('exercises.ex_descr')->get();
+
+        return view('workout.index', compact('workouts', 'usedExercises', 'fltExercise'));
     }
 
     /**

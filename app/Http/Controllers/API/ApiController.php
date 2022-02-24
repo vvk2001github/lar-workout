@@ -23,7 +23,10 @@ class ApiController extends Controller
 
     public function exercisesList(Request $request) {
         if($request->exists('ex_type')) {
-            $exercises = Auth::user()->exercises->where('ex_type', $request->ex_type);
+            $exercises = DB::table('exercises')
+                ->where('user_id', Auth::user()->id)
+                ->where('ex_type', '=', $request->ex_type)
+                ->orderBy('ex_descr')->get();
             return $this->apisuccess($data = $exercises, $message="Success");
         } else {
             return $this->apierror($message = 'ex_type needed', 400);

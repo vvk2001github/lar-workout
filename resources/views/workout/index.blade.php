@@ -24,6 +24,23 @@
                     </tr>
                     </thead>
                     <tbody>
+
+                    <tr>
+
+                        <td class="text-center">
+                            <i class="bi bi-sort-up"></i>
+                        </td>
+                        <td>
+                            <select id="fltExercise">
+                                <option value="0">All</option>
+                                @foreach($usedExercises as $exercise)
+                                    <option value="{{ $exercise->ex_id }}" {{ $exercise->ex_id == $fltExercise ? 'selected' : '' }}>{{ $exercise->ex_descr }}</option>
+                                @endforeach
+                            </select>
+                        </td>
+                        <td></td><td></td><td></td><td></td>
+                    </tr>
+
                     @foreach($workouts as $workout)
                         <tr class="align-middle">
                             <td style="display: none;">{{ $workout->w_id }}</td>
@@ -62,3 +79,15 @@
             </div>
     </div>
 @endsection
+
+@push('head-script')
+    <script src="{{ asset('js/jquery-3.6.0.min.js') }}" ></script>
+@endpush
+
+@push('foot-script')
+    <script>
+        $('#fltExercise').change(function () {
+            window.location.href = "/workout?fltExercise=" + $(this).val();
+        });
+    </script>
+@endpush
