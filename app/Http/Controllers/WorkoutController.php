@@ -25,12 +25,20 @@ class WorkoutController extends Controller
     public function index(Request $request)
     {
         $fltExercise = 0;
+        $srtDate = 0;
+        $direction = 'desc';
+        $page = 1;
+
+        if(isset($request->page)) $page = $request->page;
+
+        if(isset($request->srtDate) && ($request->srtDate == 1)) { $srtDate = 1; $direction = 'asc'; } else { $srtDate = 0; };
+
         if(isset($request->fltExercise)) $fltExercise = $request->fltExercise;
         $workouts = Workout::whereRelation('exercise', 'user_id', '=', Auth::user()->id);
 
         if($fltExercise > 0) $workouts = $workouts->where('ex_id', '=', $fltExercise);
 
-        $workouts = $workouts->orderBy('created_at', 'desc')->paginate(5)->appends(['fltExercise' => $fltExercise]);
+        $workouts = $workouts->orderBy('created_at', $direction)->paginate(5)->appends(['fltExercise' => $fltExercise, 'srtDate' => $srtDate]);
 
         $usedExercises = DB::table('exercises')
             ->join('workouts', 'exercises.ex_id', '=', 'workouts.ex_id')
@@ -40,7 +48,7 @@ class WorkoutController extends Controller
             ->distinct()
             ->orderBy('exercises.ex_descr')->get();
 
-        return view('workout.index', compact('workouts', 'usedExercises', 'fltExercise'));
+        return view('workout.index', compact('workouts', 'usedExercises', 'fltExercise', 'srtDate', 'page'));
     }
 
     /**

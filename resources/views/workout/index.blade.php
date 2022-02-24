@@ -28,7 +28,11 @@
                     <tr>
 
                         <td class="text-center">
-                            <i class="bi bi-sort-up"></i>
+                            @if ($srtDate == 1)
+                                <a href="{{url('/workout') . '?' . http_build_query(['fltExercise' => $fltExercise, 'srtDate' => 0, 'page' => $page])}}"><i class="bi bi-sort-up"></i></a>
+                            @else
+                                <a href="{{url('/workout') . '?' . http_build_query(['fltExercise' => $fltExercise, 'srtDate' => 1, 'page' => $page])}}"><i class="bi bi-sort-down"></i></a>
+                            @endif
                         </td>
                         <td>
                             <select id="fltExercise">
