@@ -31,6 +31,13 @@
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto">
+
+                @role('role_superadmin')
+                <li class="nav-item">
+                    <a class="{{ (request()->routeIs('admin.*')) ? 'nav-link active' : 'nav-link' }}" href="{{ route('admin.index') }}">Admin</a>
+                </li>
+                @endrole
+
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"  role="button" data-bs-toggle="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="flag-icon flag-icon-{{Config::get('languages')[App::getLocale()]['flag-icon']}}"></span> {{ Config::get('languages')[App::getLocale()]['display'] }}
