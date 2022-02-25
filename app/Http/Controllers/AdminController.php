@@ -34,4 +34,17 @@ class AdminController extends Controller
 
         return redirect()->route('admin.index')->with('success', 'User successfully added');
     }
+
+    public function deleteuser(Request $request)
+    {
+        $user = User::find($request->userid);
+        $user->delete();
+        return redirect()->route('admin.index')->with('success', 'User successfully deleted');
+    }
+
+    public function setpassuser(Request $request)
+    {
+
+        return redirect()->route('admin.index')->with('success', 'Password successfully changed');
+    }
 }

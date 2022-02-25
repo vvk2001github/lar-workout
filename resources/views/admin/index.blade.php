@@ -27,6 +27,7 @@
                                     <i class="bi bi-list"></i>&nbsp;Actions
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="{{ 'dropdownMenuButton1'.$user->id }}">
+                                    <li><a id="{{ 'editUser'.$user->id }}" data-id="{{ $user->id }}" data-user="{{ $user->name }}" class="dropdown-item" href="#"><i class="bi bi-gear"></i>&nbsp;Edit</a></li>
                                     <li><a id="{{ 'setPassUser'.$user->id }}" data-id="{{ $user->id }}" data-user="{{ $user->name }}" class="dropdown-item" href="#"><i class="bi bi-gear"></i>&nbsp;Reset pass</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a id="{{ 'deleteUser'.$user->id }}" data-id="{{ $user->id }}" data-user="{{ $user->name }}" class="dropdown-item" href="#"><i class="bi bi-x-square"></i>&nbsp;Delete</a></li>
@@ -82,7 +83,8 @@
                 <div class="modal-body">
                     <p id="deleteUserFormText">Modal body text goes here.</p>
                 </div>
-                <form id="deleteUserSubmitForm" method="post" th:action="@{/admin/deleteuser}">
+                <form id="deleteUserSubmitForm" method="post" action="{{ route('admin.deleteuser') }}">
+                    @csrf
                     <input type="hidden" name="userid" id="userid">
                 </form>
                 <div class="modal-footer">
@@ -103,7 +105,8 @@
                 </div>
                 <div class="modal-body">
                     <p id="setPassFormText">Modal body text goes here.</p>
-                    <form id="setPassSubmitForm" method="post" th:action="@{/admin/setpassuser}">
+                    <form id="setPassSubmitForm" method="post" action="{{ route('admin.setpassuser') }}">
+                        @csrf
                         <div class="mb-3">
                             <label for="password" class="col-form-label">Password:</label>
                             <input type="password" class="form-control" id="password" name="password">

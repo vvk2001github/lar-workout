@@ -20,5 +20,9 @@ Auth::routes();
 Route::resource('exercise', \App\Http\Controllers\ExerciseController::class);
 Route::resource('workout', \App\Http\Controllers\WorkoutController::class);
 Route::get('lang/{lang}', ['as' => 'lang.switch', 'uses' => 'App\Http\Controllers\LanguageController@switchLang']);
+
+//Admin
 Route::get('/admin/index', [\App\Http\Controllers\AdminController::class, 'index'])->name('admin.index')->middleware('auth');
-Route::post('/admin/storeuser', [\App\Http\Controllers\AdminController::class, 'storeuser'])->name('admin.storeuser');
+Route::post('/admin/storeuser', [\App\Http\Controllers\AdminController::class, 'storeuser'])->name('admin.storeuser')->middleware('auth');
+Route::post('/admin/deleteuser', [\App\Http\Controllers\AdminController::class, 'deleteuser'])->name('admin.deleteuser')->middleware('auth');
+Route::post('/admin/setpassuser', [\App\Http\Controllers\AdminController::class, 'setpassuser'])->name('admin.setpassuser')->middleware('auth');
