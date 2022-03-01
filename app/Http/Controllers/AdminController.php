@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -44,7 +45,17 @@ class AdminController extends Controller
 
     public function setpassuser(Request $request)
     {
+        $validated = $request->validate([
+            'password' => ['required', 'string', 'min:8']
+        ]);
 
+        if(strcmp($request->password, $request->confirmPassword) != 0) {
+            return redirect()->route('admin.index')->withErrors("Passwords does not match.");
+        };
+
+        $user = User::find($request->setpassuserid);
+        $user->password = Hash::make($request->password);
+        $user->save();
         return redirect()->route('admin.index')->with('success', 'Password successfully changed');
     }
 }
