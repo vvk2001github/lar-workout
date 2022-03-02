@@ -101,7 +101,7 @@
 
         $('#ex_id').empty();
 
-        getAjaxExerciseByType().then((result) => {console.log(result);Object.values(result.data).forEach(function(entry){
+        getAjaxExerciseByType().then(({data}) => {data.forEach(function(entry){
             $('#ex_id').append($('<option>', {
                 value: entry.ex_id,
                 text: entry.ex_descr
