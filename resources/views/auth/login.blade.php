@@ -69,5 +69,13 @@
             </div>
         </div>
     </div>
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <div class="btn-group" role="group" aria-label="Basic outlined example">
+                <a class="btn btn-primary" href="{{ route('login.facebook') }}" role="button">Facebook</a>
+                <a class="btn btn-primary" href="{{ route('login.gitlab') }}" role="button">Gitlab</a>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection

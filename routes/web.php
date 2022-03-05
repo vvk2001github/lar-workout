@@ -31,5 +31,11 @@ Route::post('/admin/setpassuser', [\App\Http\Controllers\AdminController::class,
 //Facebook
 Route::get('/auth/facebook/redirect', function () {
     return Socialite::driver('facebook')->redirect();
-});
-Route::get('/auth/facebook/callback',  [\App\Http\Controllers\FacebookController::class, 'fbCallback']);
+})->name('login.facebook');
+Route::get('/auth/facebook/callback',  [\App\Http\Controllers\Social\FacebookController::class, 'fbCallback']);
+
+//Gitlab
+Route::get('/auth/gitlab/redirect', function () {
+    return Socialite::driver('gitlab')->redirect();
+})->name('login.gitlab');
+Route::get('/auth/gitlab/callback', [\App\Http\Controllers\Social\GitlabController::class, 'gitlabCallback']);

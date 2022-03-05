@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Social;
 
-use Laravel\Socialite\Facades\Socialite;
-use App\Models\User;
 use App\Helpers\socialProvider;
+use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Socialite\Facades\Socialite;
 
 class FacebookController extends Controller
 {
@@ -15,10 +16,9 @@ class FacebookController extends Controller
         $user = User::where('email', $fbUser->email)->first();
 
         if ($user) {
-            // $user->update([
-            //     'github_token' => $githubUser->token,
-            //     'github_refresh_token' => $githubUser->refreshToken,
-            // ]);
+            $user->update([
+                'provider' => socialProvider::FACEBOOK,
+            ]);
         } else {
             $user = User::create([
                 'name' => $fbUser->name,
