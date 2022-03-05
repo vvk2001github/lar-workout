@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,3 +27,9 @@ Route::get('/admin/index', [\App\Http\Controllers\AdminController::class, 'index
 Route::post('/admin/storeuser', [\App\Http\Controllers\AdminController::class, 'storeuser'])->name('admin.storeuser')->middleware('auth');
 Route::post('/admin/deleteuser', [\App\Http\Controllers\AdminController::class, 'deleteuser'])->name('admin.deleteuser')->middleware('auth');
 Route::post('/admin/setpassuser', [\App\Http\Controllers\AdminController::class, 'setpassuser'])->name('admin.setpassuser')->middleware('auth');
+
+//Facebook
+Route::get('/auth/facebook/redirect', function () {
+    return Socialite::driver('facebook')->redirect();
+});
+Route::get('/auth/facebook/callback',  [\App\Http\Controllers\FacebookController::class, 'fbCallback']);
