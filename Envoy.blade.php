@@ -36,8 +36,8 @@
 
     cd {{$dirCurrentRelease}}
     npm install -only=production
-    npm audit fix
-    npm run dev
+    #npm audit fix
+    #npm run dev
 
     echo "# Npm dependencies have been installed"
 @endtask

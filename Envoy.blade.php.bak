@@ -36,7 +36,7 @@
 
     cd {{$dirCurrentRelease}}
     npm install -only=production
-    npm audit fix
+    #npm audit fix
     npm run dev
 
     echo "# Npm dependencies have been installed"
@@ -67,9 +67,27 @@
     php artisan cache:clear --env={{$env}};
 @endtask
 
+@task('set_current', ['on' => 'lar'])
+    echo '# Linking current release';
+    ln -nfs {{$dirCurrentRelease}} {{$dirCurrent}};
+@endtask
+
+@task('releases_clean', ['on' => 'lar'])
+    purging=$(ls -dt {{$dirReleases}}/* | tail -n +{{$releaseRotate}});
+
+    if [ "$purging" != "" ]; then
+        echo "# Purging old releases: $purging;"
+        rm -rf $purging;
+    else
+        echo "# No releases found for purging at this time";
+    fi
+@endtask
+
 @story('deploy')
     gitclone
     composer
 	npm
 	config_project
+	set_current
+	releases_clean
 @endstory
