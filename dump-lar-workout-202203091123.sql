@@ -5,7 +5,7 @@
 -- Dumped from database version 14.1
 -- Dumped by pg_dump version 14.1
 
--- Started on 2022-02-25 16:39:57
+-- Started on 2022-03-09 11:23:25
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -29,7 +29,7 @@ CREATE SCHEMA public;
 ALTER SCHEMA public OWNER TO postgres;
 
 --
--- TOC entry 3430 (class 0 OID 0)
+-- TOC entry 3431 (class 0 OID 0)
 -- Dependencies: 3
 -- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: postgres
 --
@@ -72,7 +72,7 @@ CREATE SEQUENCE public.exercises_ex_id_seq
 ALTER TABLE public.exercises_ex_id_seq OWNER TO demo;
 
 --
--- TOC entry 3431 (class 0 OID 0)
+-- TOC entry 3432 (class 0 OID 0)
 -- Dependencies: 218
 -- Name: exercises_ex_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: demo
 --
@@ -114,7 +114,7 @@ CREATE SEQUENCE public.failed_jobs_id_seq
 ALTER TABLE public.failed_jobs_id_seq OWNER TO demo;
 
 --
--- TOC entry 3432 (class 0 OID 0)
+-- TOC entry 3433 (class 0 OID 0)
 -- Dependencies: 214
 -- Name: failed_jobs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: demo
 --
@@ -153,7 +153,7 @@ CREATE SEQUENCE public.migrations_id_seq
 ALTER TABLE public.migrations_id_seq OWNER TO demo;
 
 --
--- TOC entry 3433 (class 0 OID 0)
+-- TOC entry 3434 (class 0 OID 0)
 -- Dependencies: 209
 -- Name: migrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: demo
 --
@@ -235,7 +235,7 @@ CREATE SEQUENCE public.permissions_id_seq
 ALTER TABLE public.permissions_id_seq OWNER TO demo;
 
 --
--- TOC entry 3434 (class 0 OID 0)
+-- TOC entry 3435 (class 0 OID 0)
 -- Dependencies: 222
 -- Name: permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: demo
 --
@@ -279,7 +279,7 @@ CREATE SEQUENCE public.personal_access_tokens_id_seq
 ALTER TABLE public.personal_access_tokens_id_seq OWNER TO demo;
 
 --
--- TOC entry 3435 (class 0 OID 0)
+-- TOC entry 3436 (class 0 OID 0)
 -- Dependencies: 216
 -- Name: personal_access_tokens_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: demo
 --
@@ -332,7 +332,7 @@ CREATE SEQUENCE public.roles_id_seq
 ALTER TABLE public.roles_id_seq OWNER TO demo;
 
 --
--- TOC entry 3436 (class 0 OID 0)
+-- TOC entry 3437 (class 0 OID 0)
 -- Dependencies: 224
 -- Name: roles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: demo
 --
@@ -353,7 +353,8 @@ CREATE TABLE public.users (
     password character varying(255),
     remember_token character varying(100),
     created_at timestamp(0) without time zone,
-    updated_at timestamp(0) without time zone
+    updated_at timestamp(0) without time zone,
+    provider character varying DEFAULT 'LOCAL'::character varying NOT NULL
 );
 
 
@@ -375,7 +376,7 @@ CREATE SEQUENCE public.users_id_seq
 ALTER TABLE public.users_id_seq OWNER TO demo;
 
 --
--- TOC entry 3437 (class 0 OID 0)
+-- TOC entry 3438 (class 0 OID 0)
 -- Dependencies: 211
 -- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: demo
 --
@@ -418,7 +419,7 @@ CREATE SEQUENCE public.workouts_w_id_seq
 ALTER TABLE public.workouts_w_id_seq OWNER TO demo;
 
 --
--- TOC entry 3438 (class 0 OID 0)
+-- TOC entry 3439 (class 0 OID 0)
 -- Dependencies: 220
 -- Name: workouts_w_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: demo
 --
@@ -427,7 +428,7 @@ ALTER SEQUENCE public.workouts_w_id_seq OWNED BY public.workouts.w_id;
 
 
 --
--- TOC entry 3220 (class 2604 OID 17879)
+-- TOC entry 3221 (class 2604 OID 17879)
 -- Name: exercises ex_id; Type: DEFAULT; Schema: public; Owner: demo
 --
 
@@ -435,7 +436,7 @@ ALTER TABLE ONLY public.exercises ALTER COLUMN ex_id SET DEFAULT nextval('public
 
 
 --
--- TOC entry 3217 (class 2604 OID 17855)
+-- TOC entry 3218 (class 2604 OID 17855)
 -- Name: failed_jobs id; Type: DEFAULT; Schema: public; Owner: demo
 --
 
@@ -451,7 +452,7 @@ ALTER TABLE ONLY public.migrations ALTER COLUMN id SET DEFAULT nextval('public.m
 
 
 --
--- TOC entry 3222 (class 2604 OID 17989)
+-- TOC entry 3223 (class 2604 OID 17989)
 -- Name: permissions id; Type: DEFAULT; Schema: public; Owner: demo
 --
 
@@ -459,7 +460,7 @@ ALTER TABLE ONLY public.permissions ALTER COLUMN id SET DEFAULT nextval('public.
 
 
 --
--- TOC entry 3219 (class 2604 OID 17867)
+-- TOC entry 3220 (class 2604 OID 17867)
 -- Name: personal_access_tokens id; Type: DEFAULT; Schema: public; Owner: demo
 --
 
@@ -467,7 +468,7 @@ ALTER TABLE ONLY public.personal_access_tokens ALTER COLUMN id SET DEFAULT nextv
 
 
 --
--- TOC entry 3223 (class 2604 OID 18000)
+-- TOC entry 3224 (class 2604 OID 18000)
 -- Name: roles id; Type: DEFAULT; Schema: public; Owner: demo
 --
 
@@ -483,7 +484,7 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 
 
 --
--- TOC entry 3221 (class 2604 OID 17893)
+-- TOC entry 3222 (class 2604 OID 17893)
 -- Name: workouts w_id; Type: DEFAULT; Schema: public; Owner: demo
 --
 
@@ -491,7 +492,7 @@ ALTER TABLE ONLY public.workouts ALTER COLUMN w_id SET DEFAULT nextval('public.w
 
 
 --
--- TOC entry 3415 (class 0 OID 17876)
+-- TOC entry 3416 (class 0 OID 17876)
 -- Dependencies: 219
 -- Data for Name: exercises; Type: TABLE DATA; Schema: public; Owner: demo
 --
@@ -543,7 +544,7 @@ INSERT INTO public.exercises VALUES (44, 1, 'Отжимания', 0);
 
 
 --
--- TOC entry 3411 (class 0 OID 17852)
+-- TOC entry 3412 (class 0 OID 17852)
 -- Dependencies: 215
 -- Data for Name: failed_jobs; Type: TABLE DATA; Schema: public; Owner: demo
 --
@@ -551,7 +552,7 @@ INSERT INTO public.exercises VALUES (44, 1, 'Отжимания', 0);
 
 
 --
--- TOC entry 3406 (class 0 OID 17828)
+-- TOC entry 3407 (class 0 OID 17828)
 -- Dependencies: 210
 -- Data for Name: migrations; Type: TABLE DATA; Schema: public; Owner: demo
 --
@@ -566,7 +567,7 @@ INSERT INTO public.migrations VALUES (7, '2022_02_25_075749_create_permission_ta
 
 
 --
--- TOC entry 3422 (class 0 OID 18007)
+-- TOC entry 3423 (class 0 OID 18007)
 -- Dependencies: 226
 -- Data for Name: model_has_permissions; Type: TABLE DATA; Schema: public; Owner: demo
 --
@@ -574,18 +575,18 @@ INSERT INTO public.migrations VALUES (7, '2022_02_25_075749_create_permission_ta
 
 
 --
--- TOC entry 3423 (class 0 OID 18018)
+-- TOC entry 3424 (class 0 OID 18018)
 -- Dependencies: 227
 -- Data for Name: model_has_roles; Type: TABLE DATA; Schema: public; Owner: demo
 --
 
-INSERT INTO public.model_has_roles VALUES (1, 'App\Models\User', 1);
 INSERT INTO public.model_has_roles VALUES (2, 'App\Models\User', 1);
 INSERT INTO public.model_has_roles VALUES (2, 'App\Models\User', 2);
+INSERT INTO public.model_has_roles VALUES (1, 'App\Models\User', 1);
 
 
 --
--- TOC entry 3409 (class 0 OID 17845)
+-- TOC entry 3410 (class 0 OID 17845)
 -- Dependencies: 213
 -- Data for Name: password_resets; Type: TABLE DATA; Schema: public; Owner: demo
 --
@@ -593,7 +594,7 @@ INSERT INTO public.model_has_roles VALUES (2, 'App\Models\User', 2);
 
 
 --
--- TOC entry 3419 (class 0 OID 17986)
+-- TOC entry 3420 (class 0 OID 17986)
 -- Dependencies: 223
 -- Data for Name: permissions; Type: TABLE DATA; Schema: public; Owner: demo
 --
@@ -601,7 +602,7 @@ INSERT INTO public.model_has_roles VALUES (2, 'App\Models\User', 2);
 
 
 --
--- TOC entry 3413 (class 0 OID 17864)
+-- TOC entry 3414 (class 0 OID 17864)
 -- Dependencies: 217
 -- Data for Name: personal_access_tokens; Type: TABLE DATA; Schema: public; Owner: demo
 --
@@ -609,7 +610,7 @@ INSERT INTO public.model_has_roles VALUES (2, 'App\Models\User', 2);
 
 
 --
--- TOC entry 3424 (class 0 OID 18029)
+-- TOC entry 3425 (class 0 OID 18029)
 -- Dependencies: 228
 -- Data for Name: role_has_permissions; Type: TABLE DATA; Schema: public; Owner: demo
 --
@@ -617,7 +618,7 @@ INSERT INTO public.model_has_roles VALUES (2, 'App\Models\User', 2);
 
 
 --
--- TOC entry 3421 (class 0 OID 17997)
+-- TOC entry 3422 (class 0 OID 17997)
 -- Dependencies: 225
 -- Data for Name: roles; Type: TABLE DATA; Schema: public; Owner: demo
 --
@@ -627,19 +628,22 @@ INSERT INTO public.roles VALUES (2, 'role_user', 'web', '2022-02-25 08:05:44', '
 
 
 --
--- TOC entry 3408 (class 0 OID 17835)
+-- TOC entry 3409 (class 0 OID 17835)
 -- Dependencies: 212
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: demo
 --
 
-INSERT INTO public.users VALUES (2, 'Nastya', 'nastya@victor.ru', '2022-02-10 11:15:03', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '77PDYUkVWd3vDrCbCzMdEOxUEigRbHyFuRPPaHVX4l10Ye8BAbO716NXeSJz', '2022-02-10 11:15:03', '2022-02-10 11:15:03');
-INSERT INTO public.users VALUES (1, 'Victor', 'victor@victor.ru', '2022-02-10 11:15:03', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'yY1O4hI5AEcjdxNK5leNjblSxNYS75syTZzhDOJWcggBwEXrtt943x6kkTRC', '2022-02-10 11:15:03', '2022-02-10 11:15:03');
-INSERT INTO public.users VALUES (6, 'test1', 'test1@victor.ru', NULL, NULL, NULL, '2022-02-25 13:06:13', '2022-02-25 13:06:13');
-INSERT INTO public.users VALUES (8, 'test3', 'test3@victor.ru', NULL, NULL, NULL, '2022-02-25 13:11:17', '2022-02-25 13:11:17');
+INSERT INTO public.users VALUES (2, 'Nastya', 'nastya@victor.ru', '2022-02-10 11:15:03', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'IpXFmaxkf25xW7cMX4KYqCLfJG3av2E2p9vpBDfMMcchtErKar54vNcl00pJ', '2022-02-10 11:15:03', '2022-02-10 11:15:03', 'LOCAL');
+INSERT INTO public.users VALUES (1, 'Victor', 'victor@victor.ru', '2022-02-10 11:15:03', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'rzJ94AocMRNLUNjtZGiTbDz8eCQbLUnf7tzAqnWeNk0FUezzA4tf3ZC50HW7', '2022-02-10 11:15:03', '2022-02-10 11:15:03', 'LOCAL');
+INSERT INTO public.users VALUES (22, 'Open Graph Test User', 'open_jdtfysm_user@tfbnw.net', NULL, NULL, NULL, '2022-03-05 07:31:57', '2022-03-05 07:31:57', 'FACEBOOK');
+INSERT INTO public.users VALUES (21, 'Victor Kulyagin', 'kulyaginv@gmail.com', NULL, NULL, NULL, '2022-03-05 07:30:20', '2022-03-05 09:09:15', 'GITLAB');
+INSERT INTO public.users VALUES (6, 'test1', 'test1@victor.ru', NULL, NULL, NULL, '2022-02-25 13:06:13', '2022-02-25 13:06:13', 'LOCAL');
+INSERT INTO public.users VALUES (8, 'test3', 'test3@victor.ru', NULL, NULL, NULL, '2022-02-25 13:11:17', '2022-02-25 13:11:17', 'LOCAL');
+INSERT INTO public.users VALUES (12, 'test5', 'test5@victor.ru', NULL, '$2y$10$UFTS7VIdbmpacS6zD..L4.5pd25L/aSZQbKNuj1FWvCy.wG7vrWRe', NULL, '2022-03-01 11:45:39', '2022-03-01 12:02:00', 'LOCAL');
 
 
 --
--- TOC entry 3417 (class 0 OID 17890)
+-- TOC entry 3418 (class 0 OID 17890)
 -- Dependencies: 221
 -- Data for Name: workouts; Type: TABLE DATA; Schema: public; Owner: demo
 --
@@ -678,16 +682,16 @@ INSERT INTO public.workouts VALUES (49, 44, 0, 0, 50, 0, '2022-02-24 13:09:03', 
 
 
 --
--- TOC entry 3439 (class 0 OID 0)
+-- TOC entry 3440 (class 0 OID 0)
 -- Dependencies: 218
 -- Name: exercises_ex_id_seq; Type: SEQUENCE SET; Schema: public; Owner: demo
 --
 
-SELECT pg_catalog.setval('public.exercises_ex_id_seq', 44, true);
+SELECT pg_catalog.setval('public.exercises_ex_id_seq', 47, true);
 
 
 --
--- TOC entry 3440 (class 0 OID 0)
+-- TOC entry 3441 (class 0 OID 0)
 -- Dependencies: 214
 -- Name: failed_jobs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: demo
 --
@@ -696,7 +700,7 @@ SELECT pg_catalog.setval('public.failed_jobs_id_seq', 1, false);
 
 
 --
--- TOC entry 3441 (class 0 OID 0)
+-- TOC entry 3442 (class 0 OID 0)
 -- Dependencies: 209
 -- Name: migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: demo
 --
@@ -705,7 +709,7 @@ SELECT pg_catalog.setval('public.migrations_id_seq', 7, true);
 
 
 --
--- TOC entry 3442 (class 0 OID 0)
+-- TOC entry 3443 (class 0 OID 0)
 -- Dependencies: 222
 -- Name: permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: demo
 --
@@ -714,7 +718,7 @@ SELECT pg_catalog.setval('public.permissions_id_seq', 1, false);
 
 
 --
--- TOC entry 3443 (class 0 OID 0)
+-- TOC entry 3444 (class 0 OID 0)
 -- Dependencies: 216
 -- Name: personal_access_tokens_id_seq; Type: SEQUENCE SET; Schema: public; Owner: demo
 --
@@ -723,7 +727,7 @@ SELECT pg_catalog.setval('public.personal_access_tokens_id_seq', 27, true);
 
 
 --
--- TOC entry 3444 (class 0 OID 0)
+-- TOC entry 3445 (class 0 OID 0)
 -- Dependencies: 224
 -- Name: roles_id_seq; Type: SEQUENCE SET; Schema: public; Owner: demo
 --
@@ -732,25 +736,25 @@ SELECT pg_catalog.setval('public.roles_id_seq', 2, true);
 
 
 --
--- TOC entry 3445 (class 0 OID 0)
+-- TOC entry 3446 (class 0 OID 0)
 -- Dependencies: 211
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: demo
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 11, true);
+SELECT pg_catalog.setval('public.users_id_seq', 22, true);
 
 
 --
--- TOC entry 3446 (class 0 OID 0)
+-- TOC entry 3447 (class 0 OID 0)
 -- Dependencies: 220
 -- Name: workouts_w_id_seq; Type: SEQUENCE SET; Schema: public; Owner: demo
 --
 
-SELECT pg_catalog.setval('public.workouts_w_id_seq', 49, true);
+SELECT pg_catalog.setval('public.workouts_w_id_seq', 53, true);
 
 
 --
--- TOC entry 3241 (class 2606 OID 17883)
+-- TOC entry 3242 (class 2606 OID 17883)
 -- Name: exercises exercises_pkey; Type: CONSTRAINT; Schema: public; Owner: demo
 --
 
@@ -759,7 +763,7 @@ ALTER TABLE ONLY public.exercises
 
 
 --
--- TOC entry 3232 (class 2606 OID 17860)
+-- TOC entry 3233 (class 2606 OID 17860)
 -- Name: failed_jobs failed_jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: demo
 --
 
@@ -768,7 +772,7 @@ ALTER TABLE ONLY public.failed_jobs
 
 
 --
--- TOC entry 3234 (class 2606 OID 17862)
+-- TOC entry 3235 (class 2606 OID 17862)
 -- Name: failed_jobs failed_jobs_uuid_unique; Type: CONSTRAINT; Schema: public; Owner: demo
 --
 
@@ -777,7 +781,7 @@ ALTER TABLE ONLY public.failed_jobs
 
 
 --
--- TOC entry 3225 (class 2606 OID 17833)
+-- TOC entry 3226 (class 2606 OID 17833)
 -- Name: migrations migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: demo
 --
 
@@ -786,7 +790,7 @@ ALTER TABLE ONLY public.migrations
 
 
 --
--- TOC entry 3254 (class 2606 OID 18017)
+-- TOC entry 3255 (class 2606 OID 18017)
 -- Name: model_has_permissions model_has_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: demo
 --
 
@@ -795,7 +799,7 @@ ALTER TABLE ONLY public.model_has_permissions
 
 
 --
--- TOC entry 3257 (class 2606 OID 18028)
+-- TOC entry 3258 (class 2606 OID 18028)
 -- Name: model_has_roles model_has_roles_pkey; Type: CONSTRAINT; Schema: public; Owner: demo
 --
 
@@ -804,7 +808,7 @@ ALTER TABLE ONLY public.model_has_roles
 
 
 --
--- TOC entry 3245 (class 2606 OID 17995)
+-- TOC entry 3246 (class 2606 OID 17995)
 -- Name: permissions permissions_name_guard_name_unique; Type: CONSTRAINT; Schema: public; Owner: demo
 --
 
@@ -813,7 +817,7 @@ ALTER TABLE ONLY public.permissions
 
 
 --
--- TOC entry 3247 (class 2606 OID 17993)
+-- TOC entry 3248 (class 2606 OID 17993)
 -- Name: permissions permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: demo
 --
 
@@ -822,7 +826,7 @@ ALTER TABLE ONLY public.permissions
 
 
 --
--- TOC entry 3236 (class 2606 OID 17871)
+-- TOC entry 3237 (class 2606 OID 17871)
 -- Name: personal_access_tokens personal_access_tokens_pkey; Type: CONSTRAINT; Schema: public; Owner: demo
 --
 
@@ -831,7 +835,7 @@ ALTER TABLE ONLY public.personal_access_tokens
 
 
 --
--- TOC entry 3238 (class 2606 OID 17874)
+-- TOC entry 3239 (class 2606 OID 17874)
 -- Name: personal_access_tokens personal_access_tokens_token_unique; Type: CONSTRAINT; Schema: public; Owner: demo
 --
 
@@ -840,7 +844,7 @@ ALTER TABLE ONLY public.personal_access_tokens
 
 
 --
--- TOC entry 3259 (class 2606 OID 18043)
+-- TOC entry 3260 (class 2606 OID 18043)
 -- Name: role_has_permissions role_has_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: demo
 --
 
@@ -849,7 +853,7 @@ ALTER TABLE ONLY public.role_has_permissions
 
 
 --
--- TOC entry 3249 (class 2606 OID 18006)
+-- TOC entry 3250 (class 2606 OID 18006)
 -- Name: roles roles_name_guard_name_unique; Type: CONSTRAINT; Schema: public; Owner: demo
 --
 
@@ -858,7 +862,7 @@ ALTER TABLE ONLY public.roles
 
 
 --
--- TOC entry 3251 (class 2606 OID 18004)
+-- TOC entry 3252 (class 2606 OID 18004)
 -- Name: roles roles_pkey; Type: CONSTRAINT; Schema: public; Owner: demo
 --
 
@@ -867,7 +871,7 @@ ALTER TABLE ONLY public.roles
 
 
 --
--- TOC entry 3227 (class 2606 OID 17844)
+-- TOC entry 3228 (class 2606 OID 17844)
 -- Name: users users_email_unique; Type: CONSTRAINT; Schema: public; Owner: demo
 --
 
@@ -876,7 +880,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- TOC entry 3229 (class 2606 OID 17842)
+-- TOC entry 3230 (class 2606 OID 17842)
 -- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: demo
 --
 
@@ -885,7 +889,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- TOC entry 3243 (class 2606 OID 17895)
+-- TOC entry 3244 (class 2606 OID 17895)
 -- Name: workouts workouts_pkey; Type: CONSTRAINT; Schema: public; Owner: demo
 --
 
@@ -894,7 +898,7 @@ ALTER TABLE ONLY public.workouts
 
 
 --
--- TOC entry 3252 (class 1259 OID 18010)
+-- TOC entry 3253 (class 1259 OID 18010)
 -- Name: model_has_permissions_model_id_model_type_index; Type: INDEX; Schema: public; Owner: demo
 --
 
@@ -902,7 +906,7 @@ CREATE INDEX model_has_permissions_model_id_model_type_index ON public.model_has
 
 
 --
--- TOC entry 3255 (class 1259 OID 18021)
+-- TOC entry 3256 (class 1259 OID 18021)
 -- Name: model_has_roles_model_id_model_type_index; Type: INDEX; Schema: public; Owner: demo
 --
 
@@ -910,7 +914,7 @@ CREATE INDEX model_has_roles_model_id_model_type_index ON public.model_has_roles
 
 
 --
--- TOC entry 3230 (class 1259 OID 17850)
+-- TOC entry 3231 (class 1259 OID 17850)
 -- Name: password_resets_email_index; Type: INDEX; Schema: public; Owner: demo
 --
 
@@ -918,7 +922,7 @@ CREATE INDEX password_resets_email_index ON public.password_resets USING btree (
 
 
 --
--- TOC entry 3239 (class 1259 OID 17872)
+-- TOC entry 3240 (class 1259 OID 17872)
 -- Name: personal_access_tokens_tokenable_type_tokenable_id_index; Type: INDEX; Schema: public; Owner: demo
 --
 
@@ -926,7 +930,7 @@ CREATE INDEX personal_access_tokens_tokenable_type_tokenable_id_index ON public.
 
 
 --
--- TOC entry 3260 (class 2606 OID 17884)
+-- TOC entry 3261 (class 2606 OID 17884)
 -- Name: exercises exercises_user_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: demo
 --
 
@@ -935,7 +939,7 @@ ALTER TABLE ONLY public.exercises
 
 
 --
--- TOC entry 3262 (class 2606 OID 18011)
+-- TOC entry 3263 (class 2606 OID 18011)
 -- Name: model_has_permissions model_has_permissions_permission_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: demo
 --
 
@@ -944,7 +948,7 @@ ALTER TABLE ONLY public.model_has_permissions
 
 
 --
--- TOC entry 3263 (class 2606 OID 18022)
+-- TOC entry 3264 (class 2606 OID 18022)
 -- Name: model_has_roles model_has_roles_role_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: demo
 --
 
@@ -953,7 +957,7 @@ ALTER TABLE ONLY public.model_has_roles
 
 
 --
--- TOC entry 3264 (class 2606 OID 18032)
+-- TOC entry 3265 (class 2606 OID 18032)
 -- Name: role_has_permissions role_has_permissions_permission_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: demo
 --
 
@@ -962,7 +966,7 @@ ALTER TABLE ONLY public.role_has_permissions
 
 
 --
--- TOC entry 3265 (class 2606 OID 18037)
+-- TOC entry 3266 (class 2606 OID 18037)
 -- Name: role_has_permissions role_has_permissions_role_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: demo
 --
 
@@ -971,7 +975,7 @@ ALTER TABLE ONLY public.role_has_permissions
 
 
 --
--- TOC entry 3261 (class 2606 OID 17896)
+-- TOC entry 3262 (class 2606 OID 17896)
 -- Name: workouts workouts_ex_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: demo
 --
 
@@ -979,7 +983,7 @@ ALTER TABLE ONLY public.workouts
     ADD CONSTRAINT workouts_ex_id_foreign FOREIGN KEY (ex_id) REFERENCES public.exercises(ex_id);
 
 
--- Completed on 2022-02-25 16:39:57
+-- Completed on 2022-03-09 11:23:26
 
 --
 -- PostgreSQL database dump complete
