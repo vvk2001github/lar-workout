@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
@@ -12,16 +13,21 @@ class ApiController extends Controller
 {
     use ApiResponser;
 
-    public function userList(Request $request) {
-        if($request->user()->tokenCan('server-admin')) {
-            $users = \App\Models\User::all();
-            return $this->apisuccess($users);
+    public function exercisesData(Request $request): \Illuminate\Http\JsonResponse
+    {
+        if($request->exists('ex_id')) {
+            $workouts = DB::table('workouts')
+                ->where('ex_id', '=', $request->ex_id)
+                ->orderBy('created_at', 'asc')
+                ->get();
+            return $this->apisuccess($data = $workouts, $message="Success");
         } else {
-            return $this->apierror('Credentials not match', 401);
+            return $this->apierror($message = 'ex_id needed', 400);
         }
     }
 
-    public function exercisesList(Request $request) {
+    public function exercisesList(Request $request): \Illuminate\Http\JsonResponse
+    {
         if($request->exists('ex_type')) {
             $exercises = DB::table('exercises')
                 ->where('user_id', Auth::user()->id)
@@ -34,15 +40,19 @@ class ApiController extends Controller
 
     }
 
-    public function exercisesData(Request $request) {
-        if($request->exists('ex_id')) {
-            $workouts = DB::table('workouts')
-                ->where('ex_id', '=', $request->ex_id)
-                ->orderBy('created_at', 'asc')
-                ->get();
-            return $this->apisuccess($data = $workouts, $message="Success");
+    public function me(): \Illuminate\Http\JsonResponse
+    {
+        $data = Auth::user();
+        return response()->json($data, 200);
+    }
+
+    public function userList(Request $request): \Illuminate\Http\JsonResponse
+    {
+        if($request->user()->tokenCan('server-admin')) {
+            $users = \App\Models\User::all();
+            return $this->apisuccess($users);
         } else {
-            return $this->apierror($message = 'ex_id needed', 400);
+            return $this->apierror('Credentials not match', 401);
         }
     }
 }

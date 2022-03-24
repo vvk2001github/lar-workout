@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\API\AuthController;
-use \Illuminate\Support\Facades\Auth;
+use \App\Http\Controllers\API\ApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('auth/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->post('auth/logout', [AuthController::class, 'logout']);
-Route::middleware('auth:sanctum')->post('/userlist', [\App\Http\Controllers\API\ApiController::class, 'userList']);
-Route::middleware('auth:sanctum')->post('/exercises', [\App\Http\Controllers\API\ApiController::class, 'exercisesList'])->name('api.exercise.list');
-Route::middleware('auth:sanctum')->post('/exercisesdata', [\App\Http\Controllers\API\ApiController::class, 'exercisesData'])->name('api.exercise.data');
+Route::middleware('auth:sanctum')->post('me', [ApiController::class, 'me']);
+Route::middleware('auth:sanctum')->post('/userlist', [ApiController::class, 'userList']);
+Route::middleware('auth:sanctum')->post('/exercises', [ApiController::class, 'exercisesList'])->name('api.exercise.list');
+Route::middleware('auth:sanctum')->post('/exercisesdata', [ApiController::class, 'exercisesData'])->name('api.exercise.data');
