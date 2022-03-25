@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreExerciseRequest;
+use App\Models\Exercise;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use App\Traits\ApiResponser;
@@ -22,6 +24,18 @@ class ApiController extends Controller
             ->where('user_id', Auth::user()->id)
             ->orderBy('ex_descr')->get();
         return response()->json($exercises, 200);
+    }
+
+    public function exerciseStore(StoreExerciseRequest $request): \Illuminate\Http\JsonResponse
+    {
+        $exercise = new Exercise();
+        $exercise->user_id = Auth::user()->id;
+        $exercise->ex_descr = $request->ex_descr;
+        $exercise->ex_type = $request->ex_type;
+
+        $exercise->save();
+
+        return $this->apisuccess(null, "Exercise added", 200);
     }
 
     public function exercisesData(Request $request): \Illuminate\Http\JsonResponse

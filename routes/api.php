@@ -31,3 +31,4 @@ Route::middleware('auth:sanctum')->post('/exercises', [ApiController::class, 'ex
 Route::middleware('auth:sanctum')->post('/exercisesdata', [ApiController::class, 'exercisesData'])->name('api.exercise.data');
 
 Route::middleware('auth:sanctum')->post('/exercises/index', [ApiController::class, 'exerciseIndex'])->name('api.exercise.index');
+Route::middleware('auth:sanctum')->post('/exercises/store', [ApiController::class, 'exerciseStore'])->name('api.exercise.store');
