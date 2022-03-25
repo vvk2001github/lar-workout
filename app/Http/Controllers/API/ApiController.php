@@ -13,6 +13,17 @@ class ApiController extends Controller
 {
     use ApiResponser;
 
+    #
+    # Exercises
+    #
+    public function exerciseIndex(): \Illuminate\Http\JsonResponse
+    {
+        $exercises = DB::table('exercises')
+            ->where('user_id', Auth::user()->id)
+            ->orderBy('ex_descr')->get();
+        return response()->json($exercises, 200);
+    }
+
     public function exercisesData(Request $request): \Illuminate\Http\JsonResponse
     {
         if($request->exists('ex_id')) {

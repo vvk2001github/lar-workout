@@ -23,6 +23,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('auth/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->post('auth/logout', [AuthController::class, 'logout']);
 Route::middleware('auth:sanctum')->post('me', [ApiController::class, 'me']);
+
+#API
 Route::middleware('auth:sanctum')->post('/userlist', [ApiController::class, 'userList']);
+#Exercises
 Route::middleware('auth:sanctum')->post('/exercises', [ApiController::class, 'exercisesList'])->name('api.exercise.list');
 Route::middleware('auth:sanctum')->post('/exercisesdata', [ApiController::class, 'exercisesData'])->name('api.exercise.data');
+
+Route::middleware('auth:sanctum')->post('/exercises/index', [ApiController::class, 'exerciseIndex'])->name('api.exercise.index');
