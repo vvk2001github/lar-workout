@@ -6,6 +6,8 @@ use App\Models\Exercise;
 use App\Http\Requests\StoreExerciseRequest;
 use App\Http\Requests\UpdateExerciseRequest;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -18,7 +20,7 @@ class ExerciseController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -29,7 +31,7 @@ class ExerciseController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -43,7 +45,7 @@ class ExerciseController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\StoreExerciseRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store(StoreExerciseRequest $request)
     {
@@ -60,8 +62,8 @@ class ExerciseController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Exercise  $exercise
-     * @return \Illuminate\Http\Response
+     * @param Exercise $exercise
+     * @return Response
      */
     public function show(Exercise $exercise)
     {
@@ -71,8 +73,8 @@ class ExerciseController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Exercise  $exercise
-     * @return \Illuminate\Http\Response
+     * @param Exercise $exercise
+     * @return Response
      */
     public function edit(Exercise $exercise)
     {
@@ -85,11 +87,11 @@ class ExerciseController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateExerciseRequest  $request
-     * @param  \App\Models\Exercise  $exercise
-     * @return \Illuminate\Http\Response
+     * @param UpdateExerciseRequest $request
+     * @param Exercise $exercise
+     * @return RedirectResponse
      */
-    public function update(UpdateExerciseRequest $request, Exercise $exercise)
+    public function update(UpdateExerciseRequest $request, Exercise $exercise): RedirectResponse
     {
         if($exercise->user_id != Auth::user()->id) {
             return redirect()->route('exercise.index')->withErrors('Вы не можете редактировать данное упражнение');
@@ -104,10 +106,10 @@ class ExerciseController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Exercise  $exercise
-     * @return \Illuminate\Http\Response
+     * @param Exercise $exercise
+     * @return RedirectResponse
      */
-    public function destroy(Exercise $exercise)
+    public function destroy(Exercise $exercise): RedirectResponse
     {
         if($exercise->user_id != Auth::user()->id) {
             return redirect()->route('exercise.index')->withErrors('Вы не можете удалить данное упражнение');

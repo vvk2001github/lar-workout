@@ -5,7 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreExerciseRequest;
 use App\Models\Exercise;
-use Illuminate\Http\Response;
+use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
@@ -18,63 +19,79 @@ class ApiController extends Controller
     #
     # Exercises
     #
-    public function exerciseIndex(): \Illuminate\Http\JsonResponse
+    public function exerciseIndex(): JsonResponse
     {
         $exercises = DB::table('exercises')
             ->where('user_id', Auth::user()->id)
             ->orderBy('ex_descr')->get();
-        return response()->json($exercises, 200);
+        return response()->json($exercises);
     }
 
-    public function exerciseStore(StoreExerciseRequest $request): \Illuminate\Http\JsonResponse
+    public function exerciseStore(StoreExerciseRequest $request): JsonResponse
     {
+        /**
+         * @var Exercise $exercise
+         */
         $exercise = new Exercise();
         $exercise->user_id = Auth::user()->id;
-        $exercise->ex_descr = $request->ex_descr;
-        $exercise->ex_type = $request->ex_type;
+        $exercise->ex_descr = $request->input('ex_descr');
+        $exercise->ex_type = $request->input('ex_type');
 
         $exercise->save();
 
-        return $this->apisuccess(null, "Exercise added", 200);
+        return $this->apisuccess(null, "Exercise added");
     }
 
-    public function exercisesData(Request $request): \Illuminate\Http\JsonResponse
+    public function exerciseDestroy(Request $request): JsonResponse
+    {
+        //$exercise = Exercise::where('ex_id', $request->input('ex_id'))->firstOrFail();
+        $exercise = Exercise::findOrFail($request->input('ex_id'));
+        if(!isset($exercise)) return $this->apierror('You can not delete this exercise', 404);
+        if($exercise->user_id != Auth::user()->id) {
+            return $this->apierror('You can not delete this exercise', 404);
+        }
+
+        $exercise->delete();
+        return $this->apisuccess(null, 'Exercises deleted');
+    }
+
+    public function exercisesData(Request $request): JsonResponse
     {
         if($request->exists('ex_id')) {
             $workouts = DB::table('workouts')
-                ->where('ex_id', '=', $request->ex_id)
-                ->orderBy('created_at', 'asc')
+                ->where('ex_id', '=', $request->input('ex_id'))
+                ->orderBy('created_at')
                 ->get();
-            return $this->apisuccess($data = $workouts, $message="Success");
+            return $this->apisuccess($workouts, "Success");
         } else {
-            return $this->apierror($message = 'ex_id needed', 400);
+            return $this->apierror( 'ex_id needed', 400);
         }
     }
 
-    public function exercisesList(Request $request): \Illuminate\Http\JsonResponse
+    public function exercisesList(Request $request): JsonResponse
     {
         if($request->exists('ex_type')) {
             $exercises = DB::table('exercises')
                 ->where('user_id', Auth::user()->id)
-                ->where('ex_type', '=', $request->ex_type)
+                ->where('ex_type', '=', $request->input('ex_type'))
                 ->orderBy('ex_descr')->get();
-            return $this->apisuccess($data = $exercises, $message="Success");
+            return $this->apisuccess($exercises, "Success");
         } else {
-            return $this->apierror($message = 'ex_type needed', 400);
+            return $this->apierror('ex_type needed', 400);
         }
 
     }
 
-    public function me(): \Illuminate\Http\JsonResponse
+    public function me(): JsonResponse
     {
         $data = Auth::user();
-        return response()->json($data, 200);
+        return response()->json($data);
     }
 
-    public function userList(Request $request): \Illuminate\Http\JsonResponse
+    public function userList(Request $request): JsonResponse
     {
         if($request->user()->tokenCan('server-admin')) {
-            $users = \App\Models\User::all();
+            $users = User::all();
             return $this->apisuccess($users);
         } else {
             return $this->apierror('Credentials not match', 401);
