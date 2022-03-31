@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreExerciseRequest;
+use App\Http\Requests\UpdateExerciseRequest;
 use App\Models\Exercise;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -42,9 +43,22 @@ class ApiController extends Controller
         return $this->apisuccess(null, "Exercise added");
     }
 
+    public function exerciseUpdate(UpdateExerciseRequest $request): JsonResponse
+    {
+        $exercise = Exercise::findOrFail($request->input('ex_id'));
+        if(!isset($exercise)) return $this->apierror('You can not edit this exercise', 404);
+        if($exercise->user_id != Auth::user()->id) {
+            return $this->apierror('You can not edit this exercise', 404);
+        }
+        $exercise->ex_descr = $request->input('ex_descr');
+        $exercise->ex_type = $request->input('ex_type');
+        $exercise->update();
+
+        return $this->apisuccess(null, "Exercise updated");
+    }
+
     public function exerciseDestroy(Request $request): JsonResponse
     {
-        //$exercise = Exercise::where('ex_id', $request->input('ex_id'))->firstOrFail();
         $exercise = Exercise::findOrFail($request->input('ex_id'));
         if(!isset($exercise)) return $this->apierror('You can not delete this exercise', 404);
         if($exercise->user_id != Auth::user()->id) {
