@@ -7,6 +7,7 @@ use App\Http\Requests\StoreExerciseRequest;
 use App\Http\Requests\UpdateExerciseRequest;
 use App\Models\Exercise;
 use App\Models\User;
+use App\Models\Workout;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use App\Traits\ApiResponser;
@@ -110,5 +111,36 @@ class ApiController extends Controller
         } else {
             return $this->apierror('Credentials not match', 401);
         }
+    }
+
+    ##
+    ##Workouts
+    ##
+
+    public function workoutsIndex(Request $request): JsonResponse
+    {
+        $sortOrder = $request->input('sortOrder', 'desc');
+        $workouts = DB::table('workouts')
+            ->join('exercises', 'workouts.ex_id', '=', 'exercises.ex_id')
+            ->where('exercises.user_id', '=', Auth::user()->id);
+
+        $fltExercise = $request->input('fltExercise', 0);
+        if($fltExercise > 0) $workouts = $workouts->where('exercises.ex_id', '=', $fltExercise);
+
+
+        $workouts = $workouts->orderBy('workouts.created_at', $sortOrder)
+            ->get(['workouts.w_id', 'workouts.created_at', 'exercises.ex_descr', 'workouts.count1', 'workouts.count2', 'workouts.weight1', 'workouts.weight2']);
+
+
+        // Управжнения, которые хоть раз использовались в тренировках
+        $usedExercises = DB::table('exercises')
+            ->join('workouts', 'exercises.ex_id', '=', 'workouts.ex_id')
+            ->join('users', 'exercises.user_id', '=', 'users.id')
+            ->where('users.id', '=', Auth::user()->id)
+            ->select('exercises.ex_id', 'exercises.ex_descr')
+            ->distinct()
+            ->orderBy('exercises.ex_descr')->get();
+
+        return response()->json(compact('workouts', 'usedExercises', 'fltExercise'));
     }
 }

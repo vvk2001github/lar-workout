@@ -4,7 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @method static whereRelation(string $string, string $string1, string $string2, $id)
+ */
 class Workout extends Model
 {
     use HasFactory;
@@ -19,7 +23,8 @@ class Workout extends Model
         'count2' => 0,
     ];
 
-    public function exercise() {
+    public function exercise(): BelongsTo
+    {
         return $this->belongsTo(Exercise::class, 'ex_id', 'ex_id');
 }
 }

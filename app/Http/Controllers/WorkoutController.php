@@ -40,6 +40,7 @@ class WorkoutController extends Controller
 
         $workouts = $workouts->orderBy('created_at', $direction)->paginate(5)->appends(['fltExercise' => $fltExercise, 'srtDate' => $srtDate]);
 
+        // Управжнения, которые хоть раз использовались в тренировках
         $usedExercises = DB::table('exercises')
             ->join('workouts', 'exercises.ex_id', '=', 'workouts.ex_id')
             ->join('users', 'exercises.user_id', '=', 'users.id')
