@@ -120,19 +120,31 @@ class ApiController extends Controller
     public function workoutsIndex(Request $request): JsonResponse
     {
         $sortOrder = $request->input('sortOrder', 'desc');
+        $fltExercise = $request->input('fltExercise', 0);
+        $limit = $request->input('limit', 5);
+        $offset = $request->input('offset', 0);
+        $offset = $offset * $limit;
+
         $workouts = DB::table('workouts')
             ->join('exercises', 'workouts.ex_id', '=', 'exercises.ex_id')
             ->where('exercises.user_id', '=', Auth::user()->id);
 
-        $fltExercise = $request->input('fltExercise', 0);
+
         if($fltExercise > 0) $workouts = $workouts->where('exercises.ex_id', '=', $fltExercise);
 
 
         $workouts = $workouts->orderBy('workouts.created_at', $sortOrder)
+            ->limit($limit)
+            ->offset($offset)
             ->get(['workouts.w_id', 'workouts.created_at', 'exercises.ex_descr', 'workouts.count1', 'workouts.count2', 'workouts.weight1', 'workouts.weight2']);
 
+        $count = DB::table('workouts')
+            ->join('exercises', 'workouts.ex_id', '=', 'exercises.ex_id')
+            ->where('exercises.user_id', '=', Auth::user()->id);
+        if($fltExercise > 0) $count = $count->where('exercises.ex_id', '=', $fltExercise);
+        $count = $count->count();
 
-        // Управжнения, которые хоть раз использовались в тренировках
+        // Упражнения, которые хоть раз использовались в тренировках
         $usedExercises = DB::table('exercises')
             ->join('workouts', 'exercises.ex_id', '=', 'workouts.ex_id')
             ->join('users', 'exercises.user_id', '=', 'users.id')
@@ -141,6 +153,11 @@ class ApiController extends Controller
             ->distinct()
             ->orderBy('exercises.ex_descr')->get();
 
-        return response()->json(compact('workouts', 'usedExercises', 'fltExercise'));
+        $exercises = DB::table('exercises')
+            ->where('user_id', Auth::user()->id)
+            ->orderBy('ex_descr')
+            ->get();
+
+        return response()->json(compact('workouts', 'usedExercises', 'fltExercise', 'count', 'exercises'));
     }
 }
