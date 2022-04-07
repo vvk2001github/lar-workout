@@ -136,7 +136,7 @@ class ApiController extends Controller
         $workouts = $workouts->orderBy('workouts.created_at', $sortOrder)
             ->limit($limit)
             ->offset($offset)
-            ->get(['workouts.w_id', 'workouts.created_at', 'exercises.ex_descr', 'workouts.count1', 'workouts.count2', 'workouts.weight1', 'workouts.weight2']);
+            ->get(['workouts.w_id', 'workouts.created_at', 'exercises.ex_id', 'exercises.ex_type', 'exercises.ex_descr', 'workouts.count1', 'workouts.count2', 'workouts.weight1', 'workouts.weight2']);
 
         $count = DB::table('workouts')
             ->join('exercises', 'workouts.ex_id', '=', 'exercises.ex_id')
