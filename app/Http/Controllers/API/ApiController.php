@@ -160,4 +160,28 @@ class ApiController extends Controller
 
         return response()->json(compact('workouts', 'usedExercises', 'fltExercise', 'count', 'exercises'));
     }
+
+    public function workoutsUpdate(Request $request): JsonResponse
+    {
+        $workout = Workout::findOrFail($request->input('w_id'));
+        if(!isset($workout)) return $this->apierror('You can not edit this workout', 404);
+        if($workout->exercise->user_id != Auth::user()->id) {
+            return $this->apierror('You can not edit this workout', 404);
+        }
+
+        $workout->ex_id = $request->input('ex_id');
+        $workout->weight1 = $request->input('weight1');
+        $workout->count1 = $request->input('count1');
+        $workout->weight2 = $request->input('weight2');
+        $workout->count2 = $request->input('count2');
+
+//        $exercise = Exercise::find($request->ex_id);
+//        if($exercise->ex_type == 0) {$workout->weight1 =0; $workout->count2 = 0; $workout->weight2 = 0;};
+//        if($exercise->ex_type == 1) {$workout->weight1 =0; $workout->weight2 = 0;};
+//        if($exercise->ex_type == 2) {$workout->count2 = 0; $workout->weight2 = 0;};
+
+        $workout->update();
+
+        return $this->apisuccess(null, "Workout updated");
+    }
 }

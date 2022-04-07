@@ -36,3 +36,4 @@ Route::middleware('auth:sanctum')->post('/exercises/destroy', [ApiController::cl
 Route::middleware('auth:sanctum')->post('/exercises/update', [ApiController::class, 'exerciseUpdate'])->name('api.exercise.update');
 
 Route::middleware('auth:sanctum')->post('/workouts/index', [ApiController::class, 'workoutsIndex'])->name('api.workouts.index');
+Route::middleware('auth:sanctum')->post('/workouts/update', [ApiController::class, 'workoutsUpdate'])->name('api.workouts.update');

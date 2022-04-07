@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @method static whereRelation(string $string, string $string1, string $string2, $id)
+ * @method static findOrFail(mixed $input)
  */
 class Workout extends Model
 {
