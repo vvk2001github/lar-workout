@@ -9,6 +9,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * @method static whereRelation(string $string, string $string1, string $string2, $id)
  * @method static findOrFail(mixed $input)
+ * @property mixed $ex_id
+ * @property mixed $count1
+ * @property mixed $count2
+ * @property mixed $weight1
+ * @property mixed $weight2
  */
 class Workout extends Model
 {

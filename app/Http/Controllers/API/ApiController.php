@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreExerciseRequest;
 use App\Http\Requests\UpdateExerciseRequest;
+use App\Http\Requests\StoreWorkoutRequest;
 use App\Models\Exercise;
 use App\Models\User;
 use App\Models\Workout;
@@ -117,6 +118,18 @@ class ApiController extends Controller
     ##Workouts
     ##
 
+    public function workoutsDestroy(Request $request): JsonResponse
+    {
+        $workout = Workout::findOrFail($request->input('w_id'));
+        if(!isset($workout)) return $this->apierror('You can not delete this workout', 404);
+        if($workout->exercise->user_id != Auth::user()->id) {
+            return $this->apierror('You can not delete this exercise', 404);
+        }
+
+        $workout->delete();
+        return $this->apisuccess(null, 'Workout deleted');
+    }
+
     public function workoutsIndex(Request $request): JsonResponse
     {
         $sortOrder = $request->input('sortOrder', 'desc');
@@ -159,6 +172,29 @@ class ApiController extends Controller
             ->get();
 
         return response()->json(compact('workouts', 'usedExercises', 'fltExercise', 'count', 'exercises'));
+    }
+
+    public function workoutsStore(StoreWorkoutRequest $request): JsonResponse
+    {
+        /**
+         * @var Exercise $exercise
+         */
+
+        $workout = new Workout();
+        $ex_id = Exercise::findOrFail($request->input('ex_id'));
+        if(!isset($ex_id)) return $this->apierror('You can not store this workout', 404);
+        if($ex_id->user_id != Auth::user()->id) {
+            return $this->apierror('You can not store this workout', 404);
+        }
+
+        $workout->ex_id = $ex_id->ex_id;
+        $workout->count1 = $request->input('count1');
+        $workout->count2 = $request->input('count2');
+        $workout->weight1 = $request->input('weight1');
+        $workout->weight2 = $request->input('weight2');
+        $workout->save();
+
+        return $this->apisuccess(null, "Workout added");
     }
 
     public function workoutsUpdate(Request $request): JsonResponse

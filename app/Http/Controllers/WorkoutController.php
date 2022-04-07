@@ -6,7 +6,9 @@ use App\Models\Exercise;
 use App\Models\Workout;
 use App\Http\Requests\StoreWorkoutRequest;
 use App\Http\Requests\UpdateWorkoutRequest;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -20,7 +22,7 @@ class WorkoutController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(Request $request)
     {
@@ -55,7 +57,7 @@ class WorkoutController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -78,7 +80,7 @@ class WorkoutController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\StoreWorkoutRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
     public function store(StoreWorkoutRequest $request)
     {
@@ -106,8 +108,8 @@ class WorkoutController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Workout  $workout
-     * @return \Illuminate\Http\Response
+     * @param Workout $workout
+     * @return Response
      */
     public function show(Workout $workout)
     {
@@ -117,10 +119,10 @@ class WorkoutController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Workout  $workout
-     * @return \Illuminate\Http\Response
+     * @param Workout $workout
+     * @return RedirectResponse
      */
-    public function edit(Workout $workout)
+    public function edit(Workout $workout): RedirectResponse
     {
         if(Auth::user()->can('update', $workout)) {
             $exercises = Auth::user()->exercises()->orderBy('ex_descr')->get();
@@ -133,8 +135,8 @@ class WorkoutController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UpdateWorkoutRequest  $request
-     * @param  \App\Models\Workout  $workout
-     * @return \Illuminate\Http\Response
+     * @param Workout $workout
+     * @return Response
      */
     public function update(UpdateWorkoutRequest $request, Workout $workout)
     {
@@ -161,8 +163,8 @@ class WorkoutController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Workout  $workout
-     * @return \Illuminate\Http\Response
+     * @param Workout $workout
+     * @return Response
      */
     public function destroy(Workout $workout)
     {
