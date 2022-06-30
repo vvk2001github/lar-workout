@@ -28,11 +28,6 @@ Route::post('/admin/storeuser', [\App\Http\Controllers\AdminController::class, '
 Route::post('/admin/deleteuser', [\App\Http\Controllers\AdminController::class, 'deleteuser'])->name('admin.deleteuser')->middleware('auth');
 Route::post('/admin/setpassuser', [\App\Http\Controllers\AdminController::class, 'setpassuser'])->name('admin.setpassuser')->middleware('auth');
 
-//Facebook
-Route::get('/auth/facebook/redirect', function () {
-    return Socialite::driver('facebook')->redirect();
-})->name('login.facebook');
-Route::get('/auth/facebook/callback',  [\App\Http\Controllers\Social\FacebookController::class, 'fbCallback']);
 
 //Gitlab
 Route::get('/auth/gitlab/redirect', function () {
